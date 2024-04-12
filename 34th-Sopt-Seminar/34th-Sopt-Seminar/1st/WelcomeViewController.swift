@@ -5,8 +5,8 @@
 //  Created by 김진웅 on 4/5/24.
 //
 
-
 import UIKit
+import Then
 
 final class WelcomeViewController: UIViewController {
     
