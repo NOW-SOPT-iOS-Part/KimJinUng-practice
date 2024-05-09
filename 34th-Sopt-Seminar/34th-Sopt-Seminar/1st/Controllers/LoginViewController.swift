@@ -101,8 +101,33 @@ final class LoginViewController: UIViewController {
     private func loginButtonDidTap(_ button: UIButton) {
         idTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-//        presentToWelcomeVC()
-        pushToWelcomeVC()
+
+        guard let id = idTextField.text,
+              let password = passwordTextField.text
+        else {
+            return
+        }
+        
+        let loginRequestModel = LoginRequestModel(id: id, password: password)
+        
+        UserService.shared.login(request: loginRequestModel) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+//                presentToWelcomeVC()
+                pushToWelcomeVC()
+            case .requestErr:
+                print("요청 오류")
+            case .decodedErr:
+                print("디코딩 오류")
+            case .pathErr:
+                print("경로 오류")
+            case .serverErr:
+                print("서버 오류")
+            case .networkFail:
+                print("네트워크 오류")
+            }
+        }
     }
     
     private func presentToWelcomeVC() {
